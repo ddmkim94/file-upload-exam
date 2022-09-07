@@ -12,13 +12,12 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http.csrf().disable()
+        http
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/**")
-                .permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .build();
+                .permitAll();
+        return http.build();
     }
 
     @Bean

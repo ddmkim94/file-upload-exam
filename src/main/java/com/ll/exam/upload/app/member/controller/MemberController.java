@@ -18,30 +18,29 @@ import java.security.Principal;
 @RequestMapping("/member")
 @RequiredArgsConstructor
 public class MemberController {
-
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/join")
-    public String showjoin() {
-        return "/member/join";
+    public String showJoin() {
+        return "member/join";
     }
 
     @PostMapping("/join")
-    public String join(HttpServletRequest request, String username, String password, String email, MultipartFile profileImg) {
+    public String join(HttpServletRequest req, String username, String password, String email, MultipartFile profileImg) {
         Member oldMember = memberService.getMemberByUsername(username);
 
         String passwordClearText = password;
         password = passwordEncoder.encode(password);
 
-        if(oldMember != null) {
+        if (oldMember != null) {
             return "redirect:/?errorMsg=Already done.";
         }
 
         Member member = memberService.join(username, password, email, profileImg);
 
         try {
-            request.login(username, passwordClearText);
+            req.login(username, passwordClearText);
         } catch (ServletException e) {
             throw new RuntimeException(e);
         }
@@ -52,11 +51,6 @@ public class MemberController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/profile")
     public String showProfile(Principal principal, Model model) {
-
-        if (principal == null) {
-            return "redirect:/?errorMsg=Need to login!";
-        }
-
         Member loginedMember = memberService.getMemberByUsername(principal.getName());
 
         model.addAttribute("loginedMember", loginedMember);
