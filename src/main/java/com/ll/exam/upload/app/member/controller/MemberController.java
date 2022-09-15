@@ -3,6 +3,7 @@ package com.ll.exam.upload.app.member.controller;
 import com.ll.exam.upload.app.member.entity.Member;
 import com.ll.exam.upload.app.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,9 @@ public class MemberController {
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
 
+    // 익명의 사용자만 접근이 가능하다!!
+    // 로그인 안한 사용자만 접근 가능
+    @PreAuthorize("isAnonymous()")
     @GetMapping("/join")
     public String showJoin() {
         return "member/join";
@@ -48,12 +52,13 @@ public class MemberController {
         return "redirect:/member/profile";
     }
 
+    @PreAuthorize("isAnonymous()")
     @GetMapping("/login")
     public String showLogin() {
         return "member/login";
     }
 
-
+    // 현재 로그인 된 유저만 접근이 가능하다!
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/profile")
     public String showProfile(Principal principal, Model model) {
