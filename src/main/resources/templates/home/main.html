@@ -1,5 +1,23 @@
-<header th:if="${loginedMember != null}">
-    [[${loginedMember.username}]] / <img th:src="@{${profile}}" alt="">
-</header>
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout.html}">
 
-<div>안녕</div>
+<head>
+    <title>메인</title>
+</head>
+
+<body>
+<section layout:fragment="content">
+
+    <div class="container">
+        <header th:if="${loginedMember != null}">
+            [[${loginedMember.username}]] / <img th:src="@{${profile}}" alt="">
+        </header>
+
+        <hr>
+
+        <div>안녕</div>
+    </div>
+
+</section>
+</body>
+</html>
