@@ -100,4 +100,14 @@ public class MemberService implements UserDetailsService {
 
         memberRepository.save(member);
     }
+
+    public void setProfileImgByUrl(Member member, String url) {
+        String filePath = Util.file.downloadImg(url, genFileDirPath + "/" + getCurrentProfileImgDirName() + "/" + UUID.randomUUID());
+        member.setProfileImg(getCurrentProfileImgDirName() + "/" + new File(filePath).getName());
+        memberRepository.save(member);
+    }
+
+    private String getCurrentProfileImgDirName() {
+        return "member/" + Util.date.getCurrentDateFormatted("yyyy_MM_dd");
+    }
 }
