@@ -19,7 +19,10 @@ public class SecurityConfig {
                 .formLogin(formLogin -> formLogin
                         .loginPage("/member/login") // GET
                         .loginProcessingUrl("/member/login")) // POST
-                .logout(logout -> logout.logoutUrl("/member/logout")).build();
+                .oauth2Login()
+                .and()
+                .logout(logout -> logout.logoutUrl("/member/logout"))
+                .build();
     }
 
     @Bean
