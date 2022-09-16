@@ -63,8 +63,7 @@ public class MemberController {
     // 현재 로그인 된 유저만 접근이 가능하다!
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/profile")
-    public String showProfile(@AuthenticationPrincipal MemberContext memberContext, Model model) {
-        model.addAttribute("memberContext", memberContext);
+    public String showProfile() {
         return "member/profile";
     }
 }
